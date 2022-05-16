@@ -29,6 +29,9 @@ with teslapy.Tesla(
     "dimitris@frangiadakis.com", authenticator=custom_auth
 ) as tesla_service:
     tesla_service.fetch_token()
+    vehicle = tesla_service.vehicle_list()[0]
+    print(vehicle)
+    vehicle_id = vehicle["id"]
 
 
 def get_auth():
@@ -36,17 +39,15 @@ def get_auth():
 
 
 @app.get("/")
-async def root():
+def root():
     with get_auth() as tesla:
         vehicles = tesla.api("VEHICLE_LIST")
         return {"name": vehicles["response"][0]["display_name"]}
 
 
 @app.get("/lock")
-async def lock():
+def lock():
     with get_auth() as tesla:
-        vehicles = tesla.api("VEHICLE_LIST")
-        vehicle_id = vehicles["response"][0]["id"]
         try:
             response = tesla.api("LOCK", {"vehicle_id": vehicle_id})
         except HTTPError:
@@ -61,9 +62,27 @@ async def lock():
             )
 
         return JSONResponse(
-            status_code=status.HTTP_200_OK, content={'msg': 'Unlocked'}
+            status_code=status.HTTP_200_OK, content={'msg': 'Locked'}
         )
 
+
+@app.post("/climate")
+def climate():
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("CLIMATE_ON", {"vehicle_id": vehicle_id})
+            if not response["response"]["result"]:
+                return JSONResponse(
+                    status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'AC offline'}
+                )
+            response = tesla.api("REMOTE_SEAT_HEATER_REQUEST", {"vehicle_id": vehicle_id}, heater=2, level=1)
+            # response = tesla.api("REMOTE_STEERING_WHEEL_HEATER_REQUEST", {"vehicle_id": vehicle_id}, on=True)
+            return response
+            # response = vehicle.command("REMOTE_STEERING_WHEEL_HEATER_REQUEST", on=1)
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'Vehicle offline'}
+            )
 
 # Climate controls: heat selected seats, temperature up/down, climate mode
 
