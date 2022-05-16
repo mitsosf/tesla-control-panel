@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 import teslapy
+from requests import HTTPError
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -46,15 +47,21 @@ async def lock():
     with get_auth() as tesla:
         vehicles = tesla.api("VEHICLE_LIST")
         vehicle_id = vehicles["response"][0]["id"]
-        response = tesla.api("LOCK", {"vehicle_id": vehicle_id})
+        try:
+            response = tesla.api("LOCK", {"vehicle_id": vehicle_id})
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'Vehicle offline'}
+            )
 
         if not response["response"]["result"]:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                content=response["response"]["result"],
+                content={'msg': response["response"]["result"]},
             )
+
         return JSONResponse(
-            status_code=status.HTTP_200_OK, content=response["response"]["result"]
+            status_code=status.HTTP_200_OK, content={'msg': 'Unlocked'}
         )
 
 
