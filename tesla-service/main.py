@@ -26,7 +26,7 @@ def custom_auth(url):
 
 
 with teslapy.Tesla(
-    "dimitris@frangiadakis.com", authenticator=custom_auth
+        "dimitris@frangiadakis.com", authenticator=custom_auth
 ) as tesla_service:
     tesla_service.fetch_token()
     vehicle = tesla_service.vehicle_list()[0]
@@ -35,7 +35,8 @@ with teslapy.Tesla(
 
 
 def get_auth():
-    return teslapy.Tesla("dimitris@frangiadakis.com", authenticator=custom_auth)
+    return teslapy.Tesla("dimitris@frangiadakis.com",
+                         authenticator=custom_auth)
 
 
 @app.get("/")
@@ -52,7 +53,8 @@ def lock():
             response = tesla.api("LOCK", {"vehicle_id": vehicle_id})
         except HTTPError:
             return JSONResponse(
-                status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'Vehicle offline'}
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
             )
 
         if not response["response"]["result"]:
@@ -66,23 +68,46 @@ def lock():
         )
 
 
-@app.post("/climate")
-def climate():
+from pydantic import BaseModel
+
+
+class SeatClimate(BaseModel):
+    heater: int
+    level: int
+
+
+@app.post("/seats")
+def climate(seat: SeatClimate):
     with get_auth() as tesla:
         try:
             response = tesla.api("CLIMATE_ON", {"vehicle_id": vehicle_id})
+
             if not response["response"]["result"]:
                 return JSONResponse(
-                    status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'AC offline'}
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    content={'msg': 'AC offline'}
                 )
-            response = tesla.api("REMOTE_SEAT_HEATER_REQUEST", {"vehicle_id": vehicle_id}, heater=2, level=1)
-            # response = tesla.api("REMOTE_STEERING_WHEEL_HEATER_REQUEST", {"vehicle_id": vehicle_id}, on=True)
-            return response
-            # response = vehicle.command("REMOTE_STEERING_WHEEL_HEATER_REQUEST", on=1)
+            response = tesla.api("REMOTE_SEAT_HEATER_REQUEST",
+                                 {"vehicle_id": vehicle_id},
+                                 heater=seat.heater, level=seat.level)
+
+            if not response['response']['result']:
+                return JSONResponse(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    content={'msg': 'Wrong values'}
+                )
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'msg': 'Seat heating changed'}
+            )
+
         except HTTPError:
             return JSONResponse(
-                status_code=status.HTTP_403_FORBIDDEN, content={'msg': 'Vehicle offline'}
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
             )
+
 
 # Climate controls: heat selected seats, temperature up/down, climate mode
 
