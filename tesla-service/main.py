@@ -31,7 +31,6 @@ with teslapy.Tesla(
 ) as tesla_service:
     tesla_service.fetch_token()
     vehicle = tesla_service.vehicle_list()[0]
-    print(vehicle)
     vehicle_id = vehicle["id"]
 
 
@@ -146,7 +145,69 @@ def temperature_request(temperature: Temperature):
             )
 
 
-# Music: volume, next, previous, play/pause
+class Media(BaseModel):
+    step: int
+
+
+@app.post("/media/playback")
+def track_request():
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("MEDIA_TOGGLE_PLAYBACK", {"vehicle_id": vehicle_id})
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'msg': 'Playback toggled'}
+            )
+
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
+
+@app.post("/media/track")
+def track_request(media: Media):
+    with get_auth() as tesla:
+        try:
+            if media.step == 1:
+                response = tesla.api("MEDIA_NEXT_TRACK", {"vehicle_id": vehicle_id})
+            else:
+                response = tesla.api("MEDIA_PREVIOUS_TRACK", {"vehicle_id": vehicle_id})
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'msg': 'Media changed'}
+            )
+
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
+
+@app.post("/media/volume")
+def volume_request(media: Media):
+    with get_auth() as tesla:
+        try:
+            if media.step == 1:
+                response = tesla.api("MEDIA_VOLUME_UP", {"vehicle_id": vehicle_id})
+            else:
+                response = tesla.api("MEDIA_VOLUME_DOWN", {"vehicle_id": vehicle_id})
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'msg': 'Volume changed'}
+            )
+
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
