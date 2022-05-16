@@ -1,2 +1,4 @@
-node_modules
-.env
+venv
+.idea
+cache.json
+__pycache__
