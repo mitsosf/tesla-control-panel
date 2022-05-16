@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
+Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
+Route::get('/auth/google/redirect', function () {
+    return Socialite::driver('google')->redirect();
+})->name('login.google');
+Route::get('/auth/google/callback', [AuthenticationController::class, 'google']);
+Route::get('/auth/facebook/redirect', function () {
+    return Socialite::driver('facebook')->redirect();
+})->name('login.facebook');
+Route::get('/auth/facebook/callback', [AuthenticationController::class, 'facebook']);
+Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+
+Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
