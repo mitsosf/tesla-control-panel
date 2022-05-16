@@ -6,6 +6,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
+from starlette import status
+from starlette.responses import JSONResponse
 
 app = FastAPI()
 
@@ -16,25 +18,49 @@ def custom_auth(url):
     options.add_argument("--disable-blink-features=AutomationControlled")
     service = Service(executable_path=ChromeDriverManager().install())
 
-    with webdriver.Chrome(options=options, service=service) \
-            as browser:
+    with webdriver.Chrome(options=options, service=service) as browser:
         browser.get(url)
-        WebDriverWait(browser, 300).until(EC.url_contains('void/callback'))
+        WebDriverWait(browser, 300).until(EC.url_contains("void/callback"))
         return browser.current_url
 
 
-with teslapy.Tesla('dimitris@frangiadakis.com',
-                   authenticator=custom_auth) as tesla_service:
+with teslapy.Tesla(
+    "dimitris@frangiadakis.com", authenticator=custom_auth
+) as tesla_service:
     tesla_service.fetch_token()
+
+
+def get_auth():
+    return teslapy.Tesla("dimitris@frangiadakis.com", authenticator=custom_auth)
 
 
 @app.get("/")
 async def root():
-    with teslapy.Tesla('dimitris@frangiadakis.com',
-                       authenticator=custom_auth) as tesla:
-        vehicles = tesla.vehicle_list()
-        return {"name": vehicles[0]['display_name']}
+    with get_auth() as tesla:
+        vehicles = tesla.api("VEHICLE_LIST")
+        return {"name": vehicles["response"][0]["display_name"]}
 
+
+@app.get("/lock")
+async def lock():
+    with get_auth() as tesla:
+        vehicles = tesla.api("VEHICLE_LIST")
+        vehicle_id = vehicles["response"][0]["id"]
+        response = tesla.api("LOCK", {"vehicle_id": vehicle_id})
+
+        if not response["response"]["result"]:
+            return JSONResponse(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                content=response["response"]["result"],
+            )
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content=response["response"]["result"]
+        )
+
+
+# Climate controls: heat selected seats, temperature up/down, climate mode
+
+# Music: volume, next, previous, play/pause
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
