@@ -17,10 +17,11 @@ class AuthenticationController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::updateOrCreate([
-            'email' => $googleUser->email
+            'google_id' => $googleUser->getId()
         ], [
             'name' => $googleUser->name,
-            'email' => $googleUser->email
+            'email' => $googleUser->email,
+            'api_token' => User::generateApiToken()
         ]);
 
         Auth::login($user);
@@ -35,7 +36,8 @@ class AuthenticationController extends Controller
             'facebook_id' => $facebookUser->id,
         ], [
             'name' => $facebookUser->name,
-            'email' => $facebookUser->email
+            'email' => $facebookUser->email,
+            'api_token' => User::generateApiToken()
         ]);
 
         Auth::login($user);
