@@ -9,6 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from starlette import status
 from starlette.responses import JSONResponse
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -68,16 +69,13 @@ def lock():
         )
 
 
-from pydantic import BaseModel
-
-
-class SeatClimate(BaseModel):
+class Seat(BaseModel):
     heater: int
     level: int
 
 
-@app.post("/seats")
-def climate(seat: SeatClimate):
+@app.post("/climate/seat")
+def seat_request(seat: Seat):
     with get_auth() as tesla:
         try:
             response = tesla.api("CLIMATE_ON", {"vehicle_id": vehicle_id})
@@ -109,7 +107,44 @@ def climate(seat: SeatClimate):
             )
 
 
-# Climate controls: heat selected seats, temperature up/down, climate mode
+class Temperature(BaseModel):
+    driver: int
+    passenger: int
+
+
+@app.post("/climate/temperature")
+def temperature_request(temperature: Temperature):
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("CLIMATE_ON", {"vehicle_id": vehicle_id})
+
+            if not response["response"]["result"]:
+                return JSONResponse(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    content={'msg': 'AC offline'}
+                )
+            response = tesla.api("CHANGE_CLIMATE_TEMPERATURE_SETTING",
+                                 {"vehicle_id": vehicle_id},
+                                 driver_temp=temperature.driver,
+                                 passenger_temp=temperature.passenger)
+
+            if not response['response']['result']:
+                return JSONResponse(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    content={'msg': 'Wrong value'}
+                )
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={'msg': 'Temperature changed'}
+            )
+
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
 
 # Music: volume, next, previous, play/pause
 
