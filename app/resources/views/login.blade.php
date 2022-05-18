@@ -29,7 +29,7 @@
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="centered">
                     <div class="row">
-                        <h4>Life, the Universe & Everything (todo)</h4>
+                        <h4>{{$carName}}</h4>
                     </div>
                     <div class="row">
                         <img src="{{asset('img/model3.png')}}" alt="tesla">

@@ -32,17 +32,14 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{route('logout')}}" class="nav-link">
-                                <i class="nav-icon fa fa-door"></i>
-                                Logout
-                            </a>
+                            <a href="{{route('logout')}}" class="nav-link"><i class="nav-icon fa fa-door"></i>Logout</a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </aside>
         <section class="content">
-            <div class="container-fluid">
+            <div class="container-fluid" style="margin-left: 40px">
                 @yield('content')
             </div>
         </section>
