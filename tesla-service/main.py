@@ -52,16 +52,12 @@ def get_auth():
 
 @app.get("/")
 def root():
-    with get_auth() as tesla:
-        vehicles = tesla.api("VEHICLE_LIST")
-        return {"name": vehicles["response"][0]["display_name"]}
+    return {"welcome": "Tesla service"}
 
 
 @app.get("/name")
 def name():
-    with get_auth() as tesla:
-        vehicles = tesla.vehicle_list()
-        return {"name": vehicles[0]["display_name"]}
+    return {"name": vehicle["display_name"]}
 
 
 @app.get("/lock")
