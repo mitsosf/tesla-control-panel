@@ -21,6 +21,7 @@ class AuthenticationController extends Controller
         ], [
             'name' => $googleUser->name,
             'email' => $googleUser->email,
+            'avatar' => $googleUser->getAvatar(),
             'api_token' => User::generateApiToken()
         ]);
 
@@ -37,6 +38,7 @@ class AuthenticationController extends Controller
         ], [
             'name' => $facebookUser->name,
             'email' => $facebookUser->email,
+            'avatar' => $facebookUser->getAvatar(). "&access_token={$facebookUser->token}",
             'api_token' => User::generateApiToken()
         ]);
 

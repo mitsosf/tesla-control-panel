@@ -17,8 +17,7 @@ export default class Dashboard extends React.Component {
 
     render() {
         return (
-            <h1>test
-                {this.state.token}
+            <h1>This is Dashboard.js and this is the user's token {this.state.token}
             </h1>
         );
     }
