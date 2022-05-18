@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import teslapy
 from requests import HTTPError
 from selenium import webdriver
@@ -12,6 +13,16 @@ from starlette.responses import JSONResponse
 from pydantic import BaseModel
 
 app = FastAPI()
+origins = [
+    "http://localhost",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Init tesla service
@@ -44,6 +55,13 @@ def root():
     with get_auth() as tesla:
         vehicles = tesla.api("VEHICLE_LIST")
         return {"name": vehicles["response"][0]["display_name"]}
+
+
+@app.get("/name")
+def name():
+    with get_auth() as tesla:
+        vehicles = tesla.vehicle_list()
+        return {"name": vehicles[0]["display_name"]}
 
 
 @app.get("/lock")
