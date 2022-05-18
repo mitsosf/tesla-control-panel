@@ -1,16 +1,16 @@
-import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import teslapy
+from pydantic import BaseModel
 from requests import HTTPError
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from starlette import status
 from starlette.responses import JSONResponse
-from pydantic import BaseModel
+import teslapy
+import uvicorn
+from webdriver_manager.chrome import ChromeDriverManager
 
 app = FastAPI()
 origins = [
@@ -189,8 +189,10 @@ class Media(BaseModel):
 def track_request():
     with get_auth() as tesla:
         try:
-            response = tesla.api("MEDIA_TOGGLE_PLAYBACK", {"vehicle_id": vehicle_id})
-
+            response = tesla.api(
+                "MEDIA_TOGGLE_PLAYBACK", {"vehicle_id": vehicle_id}
+            )
+            # TODO check if response successful and if step value is -1 or 1
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content={'msg': 'Playback toggled'}
@@ -208,10 +210,15 @@ def track_request(media: Media):
     with get_auth() as tesla:
         try:
             if media.step == 1:
-                response = tesla.api("MEDIA_NEXT_TRACK", {"vehicle_id": vehicle_id})
+                response = tesla.api(
+                    "MEDIA_NEXT_TRACK", {"vehicle_id": vehicle_id}
+                )
             else:
-                response = tesla.api("MEDIA_PREVIOUS_TRACK", {"vehicle_id": vehicle_id})
+                response = tesla.api(
+                    "MEDIA_PREVIOUS_TRACK", {"vehicle_id": vehicle_id}
+                )
 
+            # TODO check if response successful and if step value is -1 or 1
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content={'msg': 'Media changed'}
@@ -229,10 +236,15 @@ def volume_request(media: Media):
     with get_auth() as tesla:
         try:
             if media.step == 1:
-                response = tesla.api("MEDIA_VOLUME_UP", {"vehicle_id": vehicle_id})
+                response = tesla.api(
+                    "MEDIA_VOLUME_UP", {"vehicle_id": vehicle_id}
+                )
             else:
-                response = tesla.api("MEDIA_VOLUME_DOWN", {"vehicle_id": vehicle_id})
+                response = tesla.api(
+                    "MEDIA_VOLUME_DOWN", {"vehicle_id": vehicle_id}
+                )
 
+            # TODO check if response successful and if step value is -1 or 1
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content={'msg': 'Volume changed'}
