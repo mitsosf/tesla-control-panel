@@ -13,17 +13,15 @@ export default class Media extends React.Component {
 
     render() {
         return (
-            <div>
-                <h3>
-                    <StepBackwardFilled className='media-controls'/>
-                    <PlayCircleFilled className='media-controls'/>
-                    <PauseCircleFilled className='media-controls'/>
-                    <StepForwardFilled className='media-controls'/>
-                    &nbsp;&nbsp;&nbsp;
-                    <MinusCircleFilled className='media-controls'/>
-                    <SoundFilled className='media-controls'/>
-                    <PlusCircleFilled className='media-controls'/>
-                </h3>
+            <div className='media-controls'>
+                <StepBackwardFilled/>
+                <PlayCircleFilled/>
+                <PauseCircleFilled/>
+                <StepForwardFilled/>
+                &nbsp;&nbsp;&nbsp;
+                <MinusCircleFilled/>
+                <SoundFilled/>
+                <PlusCircleFilled/>
             </div>
         );
     }

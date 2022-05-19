@@ -1,4 +1,5 @@
-.media-controls {
+.media-controls > * {
+    font-size: 20px;
     padding: 5px;
 }
 
