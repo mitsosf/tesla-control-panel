@@ -1,17 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {LeftOutlined, RightOutlined, FireFilled} from '@ant-design/icons';
 
 
 export default class Climate extends React.Component {
-    constructor() {
-        super();
-
-        const element = document.getElementById('climate');
-        const props = Object.assign({}, element.dataset);
+    constructor(props) {
+        super(props);
 
         this.state = {
-            token: props.token,
+            token: this.props.token,
         }
     }
 
@@ -35,10 +31,4 @@ export default class Climate extends React.Component {
             </div>
         );
     }
-}
-
-if (document.getElementById('climate')) {
-    ReactDOM.render(<Climate/>,
-        document.getElementById('climate'))
-    ;
 }

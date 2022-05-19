@@ -1,17 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {PlayCircleFilled, PauseCircleFilled, StepBackwardFilled, StepForwardFilled, MinusCircleFilled, SoundFilled, PlusCircleFilled} from '@ant-design/icons';
 
 
 export default class Media extends React.Component {
-    constructor() {
-        super();
-
-        const element = document.getElementById('media');
-        const props = Object.assign({}, element.dataset);
+    constructor(props) {
+        super(props);
 
         this.state = {
-            token: props.token,
+            token: this.props.token,
         }
     }
 
@@ -31,10 +27,4 @@ export default class Media extends React.Component {
             </div>
         );
     }
-}
-
-if (document.getElementById('media')) {
-    ReactDOM.render(<Media/>,
-        document.getElementById('media'))
-    ;
 }

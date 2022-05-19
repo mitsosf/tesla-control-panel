@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {LockFilled, UnlockFilled} from '@ant-design/icons';
+import Media from "./Media";
+import Climate from "./Climate";
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -23,9 +25,9 @@ export default class Dashboard extends React.Component {
                 <div>
                     <img src="img/model3.png" alt="tesla" style={{width:'35%'}}></img>
                 </div>
-                <div id="media" data-token="{{$api_token}}" ></div>
+                <Media token={this.state.token}/>
                 <br></br>
-                <div id="climate" data-token="{{$api_token}}" ></div>
+                <Climate token={this.state.token}/>
             </div>
         );
     }
