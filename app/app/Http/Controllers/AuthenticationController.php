@@ -33,6 +33,16 @@ class AuthenticationController extends Controller
             'api_token' => User::generateApiToken()
         ]);
 
+        $user->roles->attach(1);
+
+        //TODO REMOVE BEFORE LAUNCHING TO PROD
+        if (env('APP_ENV', 'production') === 'local') {
+            $user->roles->attach(2);
+            $user->roles->attach(3);
+            $user->roles->attach(4);
+            $user->roles->attach(5);
+        }
+
         Auth::login($user);
 
         return redirect('/dashboard');
