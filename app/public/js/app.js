@@ -6614,25 +6614,55 @@ var Media = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "moveBackwards", function (event) {
-      console.log('backwards'); //Request to previous track
-
+    _defineProperty(_assertThisInitialized(_this), "moveBackwards", function () {
+      //Request to previous track
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/media/track', {
-        'step': -1
+        step: -1
       }, {
         headers: {
           token: _this.state.token
         }
-      }).then(function (res) {//Do something on success
-      })["catch"](function (error) {//Do something on error
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "moveForwards", function (e) {
-      console.log('play'); //Request to previous track
+    _defineProperty(_assertThisInitialized(_this), "moveForwards", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/media/track', {
+        step: 1
+      }, {
+        headers: {
+          token: _this.state.token
+        }
+      }); //Request to previous track
     });
 
-    _defineProperty(_assertThisInitialized(_this), "togglePlayPause", function () {});
+    _defineProperty(_assertThisInitialized(_this), "togglePlayPause", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/media/togglePlayback', {}, {
+        headers: {
+          token: _this.state.token
+        }
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "volumeDown", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/media/volume', {
+        step: -11
+      }, {
+        headers: {
+          token: _this.state.token
+        }
+      }); //Request to previous track
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "volumeUp", function () {
+      //Request to previous track
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/media/volume', {
+        step: 1
+      }, {
+        headers: {
+          token: _this.state.token
+        }
+      });
+    });
 
     _this.state = {
       token: _this.props.token
@@ -6673,11 +6703,13 @@ var Media = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
         shape: "round",
         icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["default"], null),
-        size: "default"
+        size: "default",
+        onClick: this.volumeDown
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], {
         shape: "round",
         icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ant_design_icons__WEBPACK_IMPORTED_MODULE_11__["default"], null),
-        size: "default"
+        size: "default",
+        onClick: this.volumeUp
       })), "\xA0\xA0\xA0");
     }
   }]);

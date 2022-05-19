@@ -12,26 +12,28 @@ export default class Media extends React.Component {
         }
     }
 
-    moveBackwards = (event) => {
-        console.log('backwards')
+    moveBackwards = () => {
         //Request to previous track
-        axios.post('/api/media/track', {
-                'step': -1
-            }, {headers: {token: this.state.token}}
-        ).then(res => {
-            //Do something on success
-        }).catch(error => {
-            //Do something on error
-        });
+        axios.post('/api/media/track', {step: -1}, {headers: {token: this.state.token}})
     }
 
-    moveForwards = (e) => {
-        console.log('play')
+    moveForwards = () => {
+        axios.post('/api/media/track', {step: 1}, {headers: {token: this.state.token}})
         //Request to previous track
     }
 
     togglePlayPause = () => {
+        axios.post('/api/media/togglePlayback', {}, {headers: {token: this.state.token}})
+    }
 
+    volumeDown = () => {
+        axios.post('/api/media/volume', {step: -11}, {headers: {token: this.state.token}})
+        //Request to previous track
+    }
+
+    volumeUp = () => {
+        //Request to previous track
+        axios.post('/api/media/volume', {step: 1}, {headers: {token: this.state.token}})
     }
 
 
@@ -55,9 +57,9 @@ export default class Media extends React.Component {
                     <Button shape="round" icon={<StepForwardFilled/>} size='default' onClick={this.moveForwards}/>
                 </Col>
                 <Col style={{marginLeft: '2%'}}>
-                    <Button shape="round" icon={<MinusCircleFilled/>} size='default'/>
+                    <Button shape="round" icon={<MinusCircleFilled/>} size='default' onClick={this.volumeDown}/>
                     <SoundFilled/>
-                    <Button shape="round" icon={<PlusCircleFilled/>} size='default'/>
+                    <Button shape="round" icon={<PlusCircleFilled/>} size='default' onClick={this.volumeUp}/>
                 </Col>
                 &nbsp;&nbsp;&nbsp;
 

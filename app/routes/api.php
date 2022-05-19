@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth.api.climate')->post('/media/track', [ApiController::class, 'moveBackwards']);
+Route::middleware('auth.api.media')->post('/media/track', [ApiController::class, 'track']);
+Route::middleware('auth.api.media')->post('/media/togglePlayback', [ApiController::class, 'togglePlayback']);
+Route::middleware('auth.api.media')->post('/media/volume', [ApiController::class, 'volume']);
