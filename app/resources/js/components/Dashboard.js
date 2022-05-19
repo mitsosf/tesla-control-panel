@@ -4,6 +4,8 @@ import {LockFilled, UnlockFilled} from '@ant-design/icons';
 import Media from "./Media";
 import Climate from "./Climate";
 import 'antd/dist/antd.css';
+import {Col, Row} from "antd";
+import Lock from "./Lock";
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -22,13 +24,21 @@ export default class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <h1>{this.state.car}</h1><h3><LockFilled/><UnlockFilled/></h3>
-                <div>
+                <Row>
+                    <h1>{this.state.car}</h1>
+                </Row>
+                <Row>
+                    <Lock token={this.state.token}/>
+                </Row>
+                <Row>
                     <img src="img/model3.png" alt="tesla" style={{width:'35%'}}></img>
-                </div>
-                <Media token={this.state.token}/>
-                <br></br>
-                <Climate token={this.state.token}/>
+                </Row>
+                <Row>
+                    <Media token={this.state.token}/>
+                </Row>
+                <Row>
+                    <Climate token={this.state.token}/>
+                </Row>
             </div>
         );
     }

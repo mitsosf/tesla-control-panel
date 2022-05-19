@@ -39,7 +39,7 @@ class RolesTableSeeder extends Seeder
 
         //Locker
         $role = new Role();
-        $role->name = 'locker';
+        $role->name = 'lock';
         $role->description = 'Lock user';
         $role->created_at = Carbon::now();
         $role->save();

@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth.api.media')->post('/media/track', [ApiController::class, 'track']);
 Route::middleware('auth.api.media')->post('/media/togglePlayback', [ApiController::class, 'togglePlayback']);
 Route::middleware('auth.api.media')->post('/media/volume', [ApiController::class, 'volume']);
+
+Route::middleware('auth.api.lock')->post('/lock', [ApiController::class, 'lock']);
+Route::middleware('auth.api.lock')->post('/unlock', [ApiController::class, 'unlock']);

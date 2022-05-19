@@ -38,4 +38,18 @@ class ApiController extends Controller
 
         return new Response($response->body(), $response->status());
     }
+
+    public function lock(): Response
+    {
+        $response = Http::post($this->teslaService . '/lock');
+
+        return new Response($response->body(), $response->status());
+    }
+
+    public function unlock(): Response
+    {
+        $response = Http::post($this->teslaService . '/unlock');
+
+        return new Response($response->body(), $response->status());
+    }
 }
