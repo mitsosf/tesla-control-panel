@@ -27,7 +27,7 @@ export default class Media extends React.Component {
     }
 
     volumeDown = () => {
-        axios.post('/api/media/volume', {step: -11}, {headers: {token: this.state.token}})
+        axios.post('/api/media/volume', {step: -1}, {headers: {token: this.state.token}})
         //Request to previous track
     }
 
