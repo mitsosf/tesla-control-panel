@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {LockFilled, UnlockFilled} from '@ant-design/icons';
 import Media from "./Media";
 import Climate from "./Climate";
+import 'antd/dist/antd.css';
 
 export default class Dashboard extends React.Component {
     constructor() {
