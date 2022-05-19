@@ -16,17 +16,17 @@ export default class Climate extends React.Component {
             <div>
                 <h2>Climate</h2>
                 <h3>
-                    <LeftOutlined style={{fontSize:'20px', padding:'5px'}}/>
+                    <LeftOutlined className='climate-arrows'/>
                     <span style={{fontSize:'30px'}}>19.5&#176;</span>
-                    <RightOutlined style={{fontSize:'20px', padding:'5px'}}/>
+                    <RightOutlined className='climate-arrows'/>
                     <br></br>
-                    <FireFilled style={{padding:'10px'}}/>
+                    <FireFilled className='climate-fire'/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <FireFilled style={{padding:'10px', color:'D8334A'}}/>
+                    <FireFilled className='climate-fire' style={{color:'D8334A'}}/>
                     <br></br>
-                    <FireFilled style={{padding:'10px', color:'FC6E51'}}/>
+                    <FireFilled className='climate-fire' style={{color:'FC6E51'}}/>
                     <FireFilled style={{padding:'4px'}}/>
-                    <FireFilled style={{padding:'10px', color:'FFCE54'}}/>
+                    <FireFilled className='climate-fire' style={{color:'FFCE54'}}/>
                 </h3>
             </div>
         );
