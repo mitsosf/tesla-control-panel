@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Tabs} from "antd";
+import {LockFilled, UnlockFilled} from '@ant-design/icons';
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -11,20 +11,27 @@ export default class Dashboard extends React.Component {
 
         this.state = {
             token: props.token,
+            car: props.car,
             url: props.url,
         }
     }
 
     render() {
         return (
-            <h1>This is Dashboard.js and this is the user's token {this.state.token}
-            </h1>
+            <div>
+                <h1>{this.state.car}</h1><h3><LockFilled/><UnlockFilled/></h3>
+                <div>
+                    <img src="img/model3.png" alt="tesla" style={{width:'35%'}}></img>
+                </div>
+                <div id="media" data-token="{{$api_token}}" ></div>
+                <br></br>
+                <div id="climate" data-token="{{$api_token}}" ></div>
+            </div>
         );
     }
 }
 
 if (document.getElementById('dashboard')) {
-    console.log('dashboard')
     ReactDOM.render(<Dashboard/>,
         document.getElementById('dashboard'))
     ;
