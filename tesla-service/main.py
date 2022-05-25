@@ -72,10 +72,12 @@ def vehicle_climate():
                 content={
                     'msg': {
                         'temps': {
-                            'current_inside_tmp': climate['inside_temp'],
-                            'current_outside_tmp': climate['outside_temp'],
-                            'driver_tmp': climate['driver_temp_setting'],
-                            'passenger_tmp': climate['passenger_temp_setting'],
+                            'current_inside': climate['inside_temp'],
+                            'current_outside': climate['outside_temp'],
+                            'driver': climate['driver_temp_setting'],
+                            'passenger': climate['passenger_temp_setting'],
+                            'min': climate['min_avail_temp'],
+                            'max': climate['max_avail_temp'],
                         },
                         'seat_heaters': {
                             'front_driver': climate['seat_heater_left'],

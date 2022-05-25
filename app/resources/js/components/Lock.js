@@ -13,13 +13,11 @@ export default class Lock extends React.Component {
     }
 
     lock = () => {
-        //Request to previous track
         axios.post('/api/lock', {}, {headers: {token: this.state.token}})
     }
 
     unlock = () => {
         axios.post('/api/unlock', {}, {headers: {token: this.state.token}})
-        //Request to previous track
     }
 
     render() {

@@ -52,4 +52,28 @@ class ApiController extends Controller
 
         return new Response($response->body(), $response->status());
     }
+
+    public function vehicleClimate(): Response
+    {
+        $response = Http::post($this->teslaService . '/vehicle/climate');
+        return new Response($response->body(), $response->status());
+    }
+
+    public function climateTemperature(Request $request): Response
+    {
+        $response = Http::post($this->teslaService . '/climate/temperature', [
+            'driver' => $request->post('driver'),
+            'passenger' => $request->post('passenger'),
+        ]);
+        return new Response($response->body(), $response->status());
+    }
+
+    public function climateSeat(Request $request): Response
+    {
+        $response = Http::post($this->teslaService . '/climate/seat', [
+            'heater' => $request->post('heater'),
+            'lever' => $request->post('level'),
+        ]);
+        return new Response($response->body(), $response->status());
+    }
 }

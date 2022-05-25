@@ -20,3 +20,7 @@ Route::middleware('auth.api.media')->post('/media/volume', [ApiController::class
 
 Route::middleware('auth.api.lock')->post('/lock', [ApiController::class, 'lock']);
 Route::middleware('auth.api.lock')->post('/unlock', [ApiController::class, 'unlock']);
+
+Route::middleware('auth.api.climate')->post('/climate', [ApiController::class, 'vehicleClimate']);
+Route::middleware('auth.api.climate')->post('/climate/temperature', [ApiController::class, 'climateTemperature']);
+Route::middleware('auth.api.climate')->post('/climate/seat', [ApiController::class, 'climateSeat']);
