@@ -28,6 +28,31 @@ def name():
     return {"name": "Mock name"}
 
 
+@app.post("/vehicle/climate")
+def vehicle_climate():
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            'msg': {
+                'temps': {
+                    'current_inside_tmp': 20,
+                    'current_outside_tmp': 22,
+                    'driver_tmp': 19,
+                    'passenger_tmp': 23,
+                },
+                'seat_heaters': {
+                    'front_driver': 0,
+                    'front_passenger': 1,
+                    'back_driver': 0,
+                    'back_passenger': 0,
+                    'back_middle': 0,
+                },
+                'climate_keeper': "off"
+            }
+        },
+    )
+
+
 @app.get("/lock")
 def lock():
     return JSONResponse(

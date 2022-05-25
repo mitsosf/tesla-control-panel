@@ -60,6 +60,41 @@ def name():
     return {"name": vehicle["display_name"]}
 
 
+@app.post("/vehicle/climate")
+def vehicle_climate():
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("VEHICLE_DATA", {"vehicle_id": vehicle_id})
+            climate = response['response']['climate_state']
+
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={
+                    'msg': {
+                        'temps': {
+                            'current_inside_tmp': climate['inside_temp'],
+                            'current_outside_tmp': climate['outside_temp'],
+                            'driver_tmp': climate['driver_temp_setting'],
+                            'passenger_tmp': climate['passenger_temp_setting'],
+                        },
+                        'seat_heaters': {
+                            'front_driver': climate['seat_heater_left'],
+                            'front_passenger': climate['seat_heater_right'],
+                            'back_driver': climate['seat_heater_rear_left'],
+                            'back_passenger': climate['seat_heater_rear_right'],
+                            'back_middle': climate['seat_heater_rear_center'],
+                        },
+                        'climate_keeper': climate['climate_keeper_mode']
+                    }
+                },
+            )
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
+
 @app.get("/lock")
 def lock():
     with get_auth() as tesla:
