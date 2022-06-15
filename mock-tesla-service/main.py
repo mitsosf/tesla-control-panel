@@ -55,14 +55,14 @@ def vehicle_climate():
     )
 
 
-@app.get("/lock")
+@app.post("/lock")
 def lock():
     return JSONResponse(
         status_code=status.HTTP_200_OK, content={'msg': 'Locked'}
     )
 
 
-@app.get("/unlock")
+@app.post("/unlock")
 def unlock():
     return JSONResponse(
         status_code=status.HTTP_200_OK, content={'msg': 'Unlocked'}
