@@ -34,12 +34,14 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'https://skyli.frangiadakis.com/auth/google/callback',
+        'redirect' => env('app_url').'/auth/google/callback'
+
     ],
 
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => 'http://localhost/auth/facebook/callback',
+        'redirect' => env('app_url').'/auth/facebook/callback'
+
     ],
 ];
