@@ -97,7 +97,7 @@ def vehicle_climate():
             )
 
 
-@app.get("/lock")
+@app.post("/lock")
 def lock():
     with get_auth() as tesla:
         try:
@@ -119,7 +119,7 @@ def lock():
         )
 
 
-@app.get("/unlock")
+@app.post("/unlock")
 def unlock():
     with get_auth() as tesla:
         try:
