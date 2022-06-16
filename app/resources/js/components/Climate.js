@@ -10,12 +10,13 @@ export default class Climate extends React.Component {
 
         this.state = {
             token: this.props.token,
-            temps: null,
+            temps: this.props.temps,
             seat_heaters: null,
             climate_keeper: null,
         }
     }
 
+    //TODO Remove
     componentDidMount() {
         axios.post('/api/climate', {}, {headers: {token: this.state.token}
         }).then((res) => {
@@ -42,7 +43,7 @@ export default class Climate extends React.Component {
         if (this.minTempReached())
             return
 
-        const newTemp = this.state.temps.driver - 0.5
+        const newTemp = this.state.temps.driver - 1
         axios.post('/api/climate/temperature',
             {
                 driver: newTemp,
@@ -61,7 +62,7 @@ export default class Climate extends React.Component {
         if (this.maxTempReached())
             return
 
-        const newTemp = this.state.temps.driver + 0.5
+        const newTemp = this.state.temps.driver + 1
 
         axios.post('/api/climate/temperature',
             {
@@ -77,18 +78,18 @@ export default class Climate extends React.Component {
             })
     }
 
-    fireColorCalculator = (seat) => {
-        switch (this.state[seat]) {
-            case 0:
-                return '000000'
-            case 1:
-                return 'FFCE54'
-            case 2:
-                return 'FC6E51'
-            case 3:
-                return 'D8334A'
-        }
-    }
+    // fireColorCalculator = (seat) => {
+    //     switch (this.state[seat]) {
+    //         case 0:
+    //             return '000000'
+    //         case 1:
+    //             return 'FFCE54'
+    //         case 2:
+    //             return 'FC6E51'
+    //         case 3:
+    //             return 'D8334A'
+    //     }
+    // }
 
     render() {
         return this.state.temps && (

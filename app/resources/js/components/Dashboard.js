@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {LockFilled, UnlockFilled} from '@ant-design/icons';
 import Media from "./Media";
 import Climate from "./Climate";
 import 'antd/dist/antd.css';
-import {Col, Row} from "antd";
+import {Row} from "antd";
 import Lock from "./Lock";
+import HeatedSeats from "./HeatedSeats";
+import axios from "axios";
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -18,7 +19,24 @@ export default class Dashboard extends React.Component {
             token: props.token,
             car: props.car,
             url: props.url,
+            temps: null,
+            seat_heaters: null,
+            climate_keeper: null,
         }
+    }
+
+    componentDidMount() {
+        axios.post('/api/climate', {}, {headers: {token: this.state.token}
+        }).then((res) => {
+            const data = res.data.msg
+            this.setState({
+                temps: data.temps,
+                seat_heaters: data.seat_heaters,
+                seat_climate_keeper: data.climate_keeper,
+            })
+        }).catch((errors) => {
+            console.log(errors);
+        });
     }
 
     render() {
@@ -37,8 +55,9 @@ export default class Dashboard extends React.Component {
                     <Media token={this.state.token}/>
                 </Row>
                 <Row>
-                    <Climate token={this.state.token}/>
+                    <Climate token={this.state.token} temps={this.state.temps}/>
                 </Row>
+                <HeatedSeats token={this.state.token}/>
             </div>
         );
     }

@@ -46,7 +46,7 @@ def vehicle_climate():
                     'front_driver': 0,
                     'front_passenger': 1,
                     'back_driver': 0,
-                    'back_passenger': 0,
+                    'back_passenger': 2,
                     'back_middle': 0,
                 },
                 'climate_keeper': "off"
