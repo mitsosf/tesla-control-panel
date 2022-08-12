@@ -14,6 +14,13 @@ class ApiController extends Controller
         $this->teslaService = env('TESLA_SERVICE_URL');
     }
 
+    public function wakeUp(): Response
+    {
+        $response = Http::post($this->teslaService . '/wakeup');
+
+        return new Response($response->body(), $response->status());
+    }
+
     public function track(Request $request): Response
     {
         $response = Http::post($this->teslaService . '/media/track', [
@@ -53,9 +60,16 @@ class ApiController extends Controller
         return new Response($response->body(), $response->status());
     }
 
+    public function start(): Response
+    {
+        $response = Http::post($this->teslaService . '/start');
+
+        return new Response($response->body(), $response->status());
+    }
+
     public function vehicleClimate(): Response
     {
-        $response = Http::post($this->teslaService . '/vehicle/climate');
+        $response = Http::post($this->teslaService . '/vehicle/climate/info');
         return new Response($response->body(), $response->status());
     }
 
@@ -68,11 +82,17 @@ class ApiController extends Controller
         return new Response($response->body(), $response->status());
     }
 
+    public function climateOff(): Response
+    {
+        $response = Http::post($this->teslaService . '/climate/off');
+        return new Response($response->body(), $response->status());
+    }
+
     public function climateSeat(Request $request): Response
     {
         $response = Http::post($this->teslaService . '/climate/seat', [
             'heater' => $request->post('heater'),
-            'lever' => $request->post('level'),
+            'level' => $request->post('level'),
         ]);
         return new Response($response->body(), $response->status());
     }

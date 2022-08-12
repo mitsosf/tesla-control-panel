@@ -57,7 +57,7 @@ export default class Dashboard extends React.Component {
                 <Row>
                     <Climate token={this.state.token} temps={this.state.temps}/>
                 </Row>
-                <HeatedSeats token={this.state.token}/>
+                <HeatedSeats token={this.state.token} seat_heaters={this.state.seat_heaters}/>
             </div>
         );
     }

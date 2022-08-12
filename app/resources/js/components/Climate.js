@@ -1,5 +1,5 @@
 import React from 'react';
-import {LeftOutlined, RightOutlined, FireFilled, LockFilled} from '@ant-design/icons';
+import {LeftOutlined, RightOutlined, PoweroffOutlined} from '@ant-design/icons';
 import {Button, Col, Row} from "antd";
 import axios from "axios";
 
@@ -43,7 +43,7 @@ export default class Climate extends React.Component {
         if (this.minTempReached())
             return
 
-        const newTemp = this.state.temps.driver - 1
+        const newTemp = Math.ceil(this.state.temps.driver) - 1
         axios.post('/api/climate/temperature',
             {
                 driver: newTemp,
@@ -62,7 +62,7 @@ export default class Climate extends React.Component {
         if (this.maxTempReached())
             return
 
-        const newTemp = this.state.temps.driver + 1
+        const newTemp = Math.floor(this.state.temps.driver) + 1
 
         axios.post('/api/climate/temperature',
             {
@@ -76,6 +76,10 @@ export default class Climate extends React.Component {
                 temps.passenger = newTemp
                 this.setState({temps})
             })
+    }
+
+    turnClimateOff = () => {
+        axios.post('/api/climate/off', {}, {headers: {token: this.state.token}})
     }
 
     // fireColorCalculator = (seat) => {
@@ -100,6 +104,7 @@ export default class Climate extends React.Component {
                         <Col><h3><Button shape="round" icon={<LeftOutlined className='climate-arrows'/>} size='default' onClick={this.decreaseTemp} disabled={this.minTempReached()}/></h3></Col>
                         <Col><span style={{fontSize: '30px'}}>{this.state.temps.driver}&#176;</span></Col>
                         <Col><h3><Button shape="round" icon={<RightOutlined className='climate-arrows'/>} size='default' onClick={this.increaseTemp} disabled={this.maxTempReached()}/></h3></Col>
+                        <Col><h3><Button shape="round" icon={<PoweroffOutlined className='climate-arrows'/>} size='default' onClick={this.turnClimateOff}>Off</Button></h3></Col>
                         <Col></Col>
                     </Row>
                     {/*<Row>*/}

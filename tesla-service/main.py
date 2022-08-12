@@ -60,7 +60,7 @@ def name():
     return {"name": vehicle["display_name"]}
 
 
-@app.post("/vehicle/wakeup")
+@app.post("/wakeup")
 def wake_up():
     with get_auth():
         try:
@@ -161,7 +161,7 @@ def unlock():
         )
 
 
-@app.post("/vehicle/start")
+@app.post("/start")
 def remote_start():
     with get_auth() as tesla:
         try:
@@ -258,6 +258,28 @@ def temperature_request(temperature: Temperature):
                 status_code=status.HTTP_403_FORBIDDEN,
                 content={'msg': 'Vehicle offline'}
             )
+
+
+@app.post("/climate/off")
+def climate_off():
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("CLIMATE_OFF", {"vehicle_id": vehicle_id})
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
+        if not response["response"]["result"]:
+            return JSONResponse(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                content={'msg': response["response"]["result"]},
+            )
+
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content={'msg': 'Climate off sent'}
+        )
 
 
 class Media(BaseModel):
