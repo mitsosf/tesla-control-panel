@@ -28,3 +28,5 @@ Route::middleware('auth.api.climate')->post('/climate', [ApiController::class, '
 Route::middleware('auth.api.climate')->post('/climate/temperature', [ApiController::class, 'climateTemperature']);
 Route::middleware('auth.api.climate')->post('/climate/off', [ApiController::class, 'climateOff']);
 Route::middleware('auth.api.climate')->post('/climate/seat', [ApiController::class, 'climateSeat']);
+
+Route::middleware('auth.api.administrator')->post('/user/roles', [ApiController::class, 'editRoles']);

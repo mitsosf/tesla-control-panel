@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $facebook_id
+ * @property string $google_id
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -78,8 +82,20 @@ class User extends Authenticatable
         return false;
     }
 
-    static function findByToken($token){
+    static function findByToken($token) {
         return User::where('api_token', $token)->first();
+    }
+
+    public function provider() {
+        if ($this->google_id) {
+            return 'google';
+        }
+
+        if ($this->facebook_id) {
+            return 'facebook';
+        }
+
+        return 'uknown';
     }
 
     public static function generateApiToken(): string

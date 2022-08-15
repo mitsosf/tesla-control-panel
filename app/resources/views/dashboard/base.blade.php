@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/@popperjs/core@2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -41,7 +42,15 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{route('logout')}}" class="nav-link"><i class="nav-icon fa fa-door"></i>Logout</a>
+                            <a href="{{route('dashboard')}}" class="nav-link"><i class="bi bi-car-front-fill"></i> Dashboard</a>
+                        </li>
+                        @if(Auth::user()->hasRole('admin'))
+                            <li class="nav-item">
+                                <a href="{{route('users')}}" class="nav-link"><i class="bi bi-people-fill"></i> Users</a>
+                            </li>
+                        @endif
+                        <li class="nav-item">
+                            <a href="{{route('logout')}}" class="nav-link"><i class="bi bi-door-closed"></i> Logout</a>
                         </li>
                     </ul>
                 </nav>
@@ -55,10 +64,10 @@
     </div>
 
     <footer class="main-footer">
-        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+        <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href="https://adminlte.io">Dimitris Frangiadakis</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
-            <b>Version</b> 3.2.0
+            <b>Version</b> 1.0.0
         </div>
     </footer>
 

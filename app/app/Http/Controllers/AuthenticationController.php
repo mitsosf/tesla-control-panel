@@ -61,15 +61,14 @@ class AuthenticationController extends Controller
     }
 
     private function attachRoles(User $user) {
-        if (!$user->hasRole('user')) {
-            $user->roles()->attach(1);
-        }
 
         if (env('APP_ENV', 'production') === 'local') {
-            $user->roles()->attach(2);
-            $user->roles()->attach(3);
-            $user->roles()->attach(4);
-            $user->roles()->attach(5);
+            $user->addRole('user');
+            $user->addRole('media');
+            $user->addRole('lock');
+            $user->addRole('climate');
+            $user->addRole('driver');
+            $user->addRole('admin');
         }
     }
 
