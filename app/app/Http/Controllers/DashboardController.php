@@ -45,4 +45,9 @@ class DashboardController extends Controller
         return view('dashboard.user', compact('user', 'roles', 'api_token'));
     }
 
+    public function deleteUser (User $user) {
+        $user->delete();
+        return redirect(route('users'));
+    }
+
 }

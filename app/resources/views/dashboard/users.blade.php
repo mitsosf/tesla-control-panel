@@ -18,7 +18,7 @@
                     @foreach($users as $user)
                         <tr>
                             <td><a href="{{route('user.edit', $user->id)}}">{{$user->name}}</a>
-                                <img src="{{$user->avatar}}" class="img-circle elevation-2">
+                                <img src="{{$user->avatar}}" class="img-circle elevation-2" height="30px">
                             </td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->provider()}}</td>

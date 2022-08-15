@@ -41,3 +41,4 @@ Route::get('/landing', [DashboardController::class, 'landing'])->name('user.new'
 Route::middleware('auth.basicUser')->get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 Route::middleware('auth.administrator')->get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
 Route::middleware('auth.administrator')->get('/dashboard/user/{user}', [DashboardController::class, 'user'])->name('user.edit');
+Route::middleware('auth.administrator')->get('/user/delete/{user}', [DashboardController::class, 'deleteUser'])->name('user.delete');
