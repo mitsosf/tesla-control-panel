@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'auth.api.media' => \App\Http\Middleware\MediaApiMiddleware::class,
         'auth.api.climate' => \App\Http\Middleware\ClimateApiMiddleware::class,
         'auth.api.lock' => \App\Http\Middleware\LockApiMiddleware::class,
+        'auth.api.driver' => \App\Http\Middleware\DriverApiMiddleware::class,
         'auth.administrator' => \App\Http\Middleware\AdminMiddleware::class,
         'auth.api.administrator' => \App\Http\Middleware\AdminApiMiddleware::class,
     ];

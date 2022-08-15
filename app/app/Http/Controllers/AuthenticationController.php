@@ -23,6 +23,8 @@ class AuthenticationController extends Controller
     public function google()
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
+
+        /**@var User $user*/
         $user = User::updateOrCreate([
             'google_id' => $googleUser->getId()
         ], [
@@ -32,15 +34,7 @@ class AuthenticationController extends Controller
             'api_token' => User::generateApiToken()
         ]);
 
-        $user->roles()->attach(1);
-
-        //TODO REMOVE BEFORE LAUNCHING TO PROD
-        if (env('APP_ENV', 'production') === 'local') {
-            $user->roles()->attach(2);
-            $user->roles()->attach(3);
-            $user->roles()->attach(4);
-            $user->roles()->attach(5);
-        }
+        $this->attachRoles($user);
 
         Auth::login($user);
 
@@ -59,9 +53,24 @@ class AuthenticationController extends Controller
             'api_token' => User::generateApiToken()
         ]);
 
+        $this->attachRoles($user);
+
         Auth::login($user);
 
         return redirect('/dashboard');
+    }
+
+    private function attachRoles(User $user) {
+        if (!$user->hasRole('user')) {
+            $user->roles()->attach(1);
+        }
+
+        if (env('APP_ENV', 'production') === 'local') {
+            $user->roles()->attach(2);
+            $user->roles()->attach(3);
+            $user->roles()->attach(4);
+            $user->roles()->attach(5);
+        }
     }
 
     public function logout()

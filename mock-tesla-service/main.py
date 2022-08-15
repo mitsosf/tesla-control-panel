@@ -28,6 +28,16 @@ def name():
     return {"name": "Mock name"}
 
 
+@app.post("/wakeup")
+def wake_up():
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            'msg': 'Wake up command sent'
+        },
+    )
+
+
 @app.post("/vehicle/climate")
 def vehicle_climate():
     return JSONResponse(
@@ -46,7 +56,7 @@ def vehicle_climate():
                     'front_driver': 0,
                     'front_passenger': 1,
                     'back_driver': 0,
-                    'back_passenger': 0,
+                    'back_passenger': 2,
                     'back_middle': 0,
                 },
                 'climate_keeper': "off"
@@ -66,6 +76,13 @@ def lock():
 def unlock():
     return JSONResponse(
         status_code=status.HTTP_200_OK, content={'msg': 'Unlocked'}
+    )
+
+
+@app.post("/start")
+def remote_start():
+    return JSONResponse(
+        status_code=status.HTTP_200_OK, content={'msg': 'Vehicle started'}
     )
 
 
@@ -109,6 +126,13 @@ def temperature_request(temperature: Temperature):
     )
 
 
+@app.post("/climate/off")
+def climate_off():
+    return JSONResponse(
+        status_code=status.HTTP_200_OK, content={'msg': 'Climate off sent'}
+    )
+
+
 class Media(BaseModel):
     step: int
 
@@ -116,7 +140,6 @@ class Media(BaseModel):
 @app.post("/media/playback")
 def track_request():
     return JSONResponse(
-        status_code=status.HTTP_200_OK,
         content={'msg': 'Playback toggled'}
     )
 

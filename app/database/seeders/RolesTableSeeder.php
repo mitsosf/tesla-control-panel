@@ -44,6 +44,13 @@ class RolesTableSeeder extends Seeder
         $role->created_at = Carbon::now();
         $role->save();
 
+        //Driver
+        $role = new Role();
+        $role->name = 'driver';
+        $role->description = 'Driver user';
+        $role->created_at = Carbon::now();
+        $role->save();
+
         //Admin
         $role = new Role();
         $role->name = 'admin';
