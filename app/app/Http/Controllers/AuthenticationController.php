@@ -34,7 +34,7 @@ class AuthenticationController extends Controller
             'api_token' => User::generateApiToken()
         ]);
 
-        $this->attachRoles($user);
+        $this->attachRolesToAdmin($user);
 
         Auth::login($user);
 
@@ -53,16 +53,16 @@ class AuthenticationController extends Controller
             'api_token' => User::generateApiToken()
         ]);
 
-        $this->attachRoles($user);
+        $this->attachRolesToAdmin($user);
 
         Auth::login($user);
 
         return redirect('/dashboard');
     }
 
-    private function attachRoles(User $user) {
+    private function attachRolesToAdmin(User $user) {
 
-        if (env('APP_ENV', 'production') === 'local') {
+        if ($user->email === 'dimitris@frangiadakis.com') {
             $user->addRole('user');
             $user->addRole('media');
             $user->addRole('lock');
