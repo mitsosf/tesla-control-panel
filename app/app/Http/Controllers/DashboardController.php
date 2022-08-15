@@ -26,6 +26,13 @@ class DashboardController extends Controller
         return view('dashboard.home', compact('api_token', 'carName'));
     }
 
+    public function landing() {
+        if (Auth::user()->hasRole('user')){
+            return redirect('dashboard');
+        }
+        return view('landing');
+    }
+
     public function users () {
         $users = User::all();
         return view('dashboard.users', compact('users'));
