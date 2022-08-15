@@ -37,4 +37,6 @@ Route::get('/auth/facebook/callback', [AuthenticationController::class, 'faceboo
 Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
 
-Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
+Route::middleware('auth.basicUser')->get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
+Route::middleware('auth.administrator')->get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
+Route::middleware('auth.administrator')->get('/dashboard/user/{user}', [DashboardController::class, 'user'])->name('user.edit');
