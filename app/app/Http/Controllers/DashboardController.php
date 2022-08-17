@@ -50,4 +50,10 @@ class DashboardController extends Controller
         return redirect(route('users'));
     }
 
+    public function showRoles() {
+        $roles = Auth::user()->roles;
+
+        return view('dashboard.roles', compact('roles'));
+    }
+
 }

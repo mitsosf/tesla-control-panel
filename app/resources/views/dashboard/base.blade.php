@@ -50,6 +50,9 @@
                             </li>
                         @endif
                         <li class="nav-item">
+                            <a href="{{route('user.roles')}}" class="nav-link"><i class="bi bi-list-check"></i> My roles</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('logout')}}" class="nav-link"><i class="bi bi-door-closed"></i> Logout</a>
                         </li>
                     </ul>
