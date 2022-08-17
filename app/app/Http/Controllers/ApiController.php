@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -108,7 +107,6 @@ class ApiController extends Controller
 
     public function editRoles(Request $request): Response
     {
-        Log::debug('Beginning.');
         /**@var User $user */
         $user = User::where('id',$request->post('user_id'))->with('roles')->first();
         $current_roles = [];
