@@ -1,16 +1,12 @@
 @extends('dashboard.base')
 
-@section('title', 'Users')
+@section('title', 'My roles')
 @section('content')
-    <div class="row">
-        <h3>My roles:</h3>
-    </div>
-    <div class="row">
+    <div class="container">
         <ul>
             @foreach($roles as $role)
                 <li>{{$role->description}}</li>
             @endforeach
         </ul>
     </div>
-
 @endsection
