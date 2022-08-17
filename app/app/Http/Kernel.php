@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.basicUser' => \App\Http\Middleware\BasicUserMiddleware::class,
+        'auth.api.basicUser' => \App\Http\Middleware\BasicUserApiMiddleware::class,
         'auth.api.media' => \App\Http\Middleware\MediaApiMiddleware::class,
         'auth.api.climate' => \App\Http\Middleware\ClimateApiMiddleware::class,
         'auth.api.lock' => \App\Http\Middleware\LockApiMiddleware::class,

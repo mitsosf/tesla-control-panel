@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware('auth.api.basicUser')->post('/wakeup', [ApiController::class, 'wakeUp']);
 
 Route::middleware('auth.api.media')->post('/media/track', [ApiController::class, 'track']);
 Route::middleware('auth.api.media')->post('/media/togglePlayback', [ApiController::class, 'togglePlayback']);
 Route::middleware('auth.api.media')->post('/media/volume', [ApiController::class, 'volume']);
 
-Route::middleware('auth.api.lock')->post('/wakeup', [ApiController::class, 'wakeUp']);
 Route::middleware('auth.api.lock')->post('/lock', [ApiController::class, 'lock']);
 Route::middleware('auth.api.lock')->post('/unlock', [ApiController::class, 'unlock']);
 
