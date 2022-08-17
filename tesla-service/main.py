@@ -260,6 +260,28 @@ def temperature_request(temperature: Temperature):
             )
 
 
+@app.post("/climate/on")
+def climate_on():
+    with get_auth() as tesla:
+        try:
+            response = tesla.api("CLIMATE_ON", {"vehicle_id": vehicle_id})
+        except HTTPError:
+            return JSONResponse(
+                status_code=status.HTTP_403_FORBIDDEN,
+                content={'msg': 'Vehicle offline'}
+            )
+
+        if not response["response"]["result"]:
+            return JSONResponse(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                content={'msg': response["response"]["result"]},
+            )
+
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content={'msg': 'Climate on sent'}
+        )
+
+
 @app.post("/climate/off")
 def climate_off():
     with get_auth() as tesla:

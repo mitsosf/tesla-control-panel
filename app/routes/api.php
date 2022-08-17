@@ -26,6 +26,7 @@ Route::middleware('auth.api.driver')->post('/start', [ApiController::class, 'sta
 
 Route::middleware('auth.api.climate')->post('/climate', [ApiController::class, 'vehicleClimate']);
 Route::middleware('auth.api.climate')->post('/climate/temperature', [ApiController::class, 'climateTemperature']);
+Route::middleware('auth.api.climate')->post('/climate/on', [ApiController::class, 'climateOn']);
 Route::middleware('auth.api.climate')->post('/climate/off', [ApiController::class, 'climateOff']);
 Route::middleware('auth.api.climate')->post('/climate/seat', [ApiController::class, 'climateSeat']);
 

@@ -85,6 +85,12 @@ class ApiController extends Controller
         return new Response($response->body(), $response->status());
     }
 
+    public function climateOn(): Response
+    {
+        $response = Http::post($this->teslaService . '/climate/on');
+        return new Response($response->body(), $response->status());
+    }
+
     public function climateOff(): Response
     {
         $response = Http::post($this->teslaService . '/climate/off');

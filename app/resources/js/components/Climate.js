@@ -106,6 +106,18 @@ export default class Climate extends React.Component {
         });
     }
 
+    turnClimateOn = () => {
+        axios.post('/api/climate/on', {}, {headers: {token: this.state.token}}).then((res) => {
+            if (res.status === 200) {
+                this.openNotificationWithIcon('success', `Climate ON sent.`)
+            } else {
+                this.openNotificationWithIcon('error', res.data)
+            }
+        }).catch((error) => {
+            this.openNotificationWithIcon('error', error.response.data)
+        });
+    }
+
     // fireColorCalculator = (seat) => {
     //     switch (this.state[seat]) {
     //         case 0:
@@ -124,6 +136,7 @@ export default class Climate extends React.Component {
             <div style={{'marginTop': '3%'}}>
                 <h3>Climate:</h3>
                     <Row>
+                        <Col><Button shape="round" icon={<PoweroffOutlined className='climate-arrows'/>} size='large' onClick={this.turnClimateOn}/></Col>
                         <Col><Button shape="round" icon={<LeftOutlined className='climate-arrows'/>} size='large' onClick={this.decreaseTemp} disabled={this.minTempReached()}/></Col>
                         <Col><span style={{fontSize: '85px'}}>{this.state.temps.driver}&#176;</span></Col>
                         <Col><Button shape="round" icon={<RightOutlined className='climate-arrows'/>} size='large' onClick={this.increaseTemp} disabled={this.maxTempReached()}/></Col>

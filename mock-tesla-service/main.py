@@ -126,6 +126,13 @@ def temperature_request(temperature: Temperature):
     )
 
 
+@app.post("/climate/on")
+def climate_on():
+    return JSONResponse(
+        status_code=status.HTTP_200_OK, content={'msg': 'Climate on sent'}
+    )
+
+
 @app.post("/climate/off")
 def climate_off():
     return JSONResponse(
