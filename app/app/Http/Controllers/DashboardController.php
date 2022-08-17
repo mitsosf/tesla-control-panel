@@ -46,6 +46,8 @@ class DashboardController extends Controller
     }
 
     public function deleteUser (User $user) {
+
+        $user->roles()->detach();
         $user->delete();
         return redirect(route('users'));
     }

@@ -108,7 +108,6 @@ export default class User extends React.Component {
                             <Form.Item label='Roles'>
                                 <Select
                                     mode="multiple"
-                                    allowClear
                                     style={{width: '100%'}}
                                     placeholder="Please select"
                                     defaultValue={this.state.user_roles}
