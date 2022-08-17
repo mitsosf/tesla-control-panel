@@ -10,3 +10,12 @@
 .climate-fire {
     padding: 10px;
 }
+
+.ant-btn-round.ant-btn-lg {
+    height: 120px;
+    margin: 5px;
+}
+
+.ant-btn-icon-only.ant-btn-lg > * {
+    font-size: 80px;
+}

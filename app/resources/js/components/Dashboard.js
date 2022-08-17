@@ -43,13 +43,13 @@ export default class Dashboard extends React.Component {
         return (
             <div>
                 <Row>
-                    <h1>{this.state.car}</h1>
+                    <h2>{this.state.car}</h2>
                 </Row>
                 <Row>
                     <Lock token={this.state.token}/>
                 </Row>
                 <Row>
-                    <img src="img/model3.png" alt="tesla" style={{width:'35%'}}></img>
+                    <img src="img/model3.png" alt="tesla" style={{width:'80%'}}></img>
                 </Row>
                 <Row>
                     <Media token={this.state.token}/>
@@ -57,6 +57,7 @@ export default class Dashboard extends React.Component {
                 <Row>
                     <Climate token={this.state.token} temps={this.state.temps}/>
                 </Row>
+                <h3>Heated seats:</h3>
                 <HeatedSeats token={this.state.token} seat_heaters={this.state.seat_heaters}/>
             </div>
         );

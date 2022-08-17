@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider } from 'antd';
+import {notification, Row, Slider} from 'antd';
 import axios from "axios";
 
 export default class HeatedSeats extends React.Component {
@@ -27,6 +27,14 @@ export default class HeatedSeats extends React.Component {
         });
     }
 
+    openNotificationWithIcon = (type, message) => {
+        notification[type]({
+            message: type === 'success' ? 'Success!' : 'Oops!',
+            description: message,
+            placement: 'bottomRight'
+        });
+    };
+
     //TODO make this more compact
 
     calculateValue = (level) => {
@@ -41,6 +49,14 @@ export default class HeatedSeats extends React.Component {
         } else {
             return 0
         }
+    }
+
+    seatMapping = {
+        0: 'Driver',
+        1: 'Passenger',
+        2: 'Back driver',
+        4: 'Back middle',
+        5: 'Back passenger',
     }
 
     //TODO Heated seats keep their value when the AC is turned off.
@@ -65,9 +81,17 @@ export default class HeatedSeats extends React.Component {
                 heater: seat,
             },
             {headers: {token: this.state.token}})
-            .then(() => {
-                // TODO toast
-            })
+            .then((res) => {
+                console.log(`${this.seatMapping[seat]} seat set to ${level}.`)
+                if (res.status === 200) {
+                    this.openNotificationWithIcon('success', `${this.seatMapping[seat]} seat warmer set to ${level}.`)
+                } else {
+                    this.openNotificationWithIcon('error', res.data)
+                }
+            }).catch((error) => {
+                this.openNotificationWithIcon('error', error.response.data)
+            }
+        );
     }
 
     render() {
@@ -90,36 +114,40 @@ export default class HeatedSeats extends React.Component {
 
         return this.state.seat_heaters && (
             <>
-                <h4>Driver</h4>
+                <h4 style={{marginTop: '5%'}}>Driver</h4>
                 <Slider marks={marks}
                         step={null}
                         defaultValue={this.calculateValue(this.state.seat_heaters.front_driver)}
                         onAfterChange={this.handleChange(0)}
-                />
+                /><br/>
+
                 <h4>Passenger</h4>
                 <Slider marks={marks}
                         step={null}
                         defaultValue={this.calculateValue(this.state.seat_heaters.front_passenger)}
                         onAfterChange={this.handleChange(1)}
-                />
+                /><br/>
+
                 <h4>Left</h4>
                 <Slider marks={marks}
                         step={null}
                         defaultValue={this.calculateValue(this.state.seat_heaters.back_driver)}
                         onAfterChange={this.handleChange(2)}
-                />
+                /><br/>
+
                 <h4>Middle</h4>
                 <Slider marks={marks}
                         step={null}
                         defaultValue={this.calculateValue(this.state.seat_heaters.back_middle)}
                         onAfterChange={this.handleChange(4)}
-                />
+                /><br/>
+
                 <h4>Right</h4>
                 <Slider marks={marks}
                         step={null}
                         defaultValue={this.calculateValue(this.state.seat_heaters.back_passenger)}
                         onAfterChange={this.handleChange(5)}
-                />
+                /><br/>
             </>
         );
     }
