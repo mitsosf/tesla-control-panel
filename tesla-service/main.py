@@ -62,21 +62,25 @@ def name():
 
 @app.post("/wakeup")
 def wake_up():
-    with get_auth():
+    with get_auth() as tesla:
         try:
-            vehicle.sync_wake_up()
-
-            return JSONResponse(
-                status_code=status.HTTP_200_OK,
-                content={
-                    'msg': 'Wake up command sent'
-                },
-            )
+            response = tesla.api("WAKE_UP", {"vehicle_id": vehicle_id})
         except HTTPError:
             return JSONResponse(
                 status_code=status.HTTP_403_FORBIDDEN,
                 content={'msg': 'Vehicle offline'}
             )
+
+        if response is not None and\
+                type(response['response']) is not teslapy.JsonDict:
+            return JSONResponse(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                content={'msg': response["response"]["result"]},
+            )
+
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content={'msg': 'Wake up sent'}
+        )
 
 
 @app.post("/vehicle/climate/info")
