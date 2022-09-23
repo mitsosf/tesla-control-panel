@@ -5,6 +5,7 @@ services:
         ports:
             - '8001:8001'
         image: tesla-mock-service
+        restart: always
         networks:
           - app_sail
 networks:

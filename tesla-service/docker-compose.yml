@@ -5,6 +5,7 @@ services:
         ports:
             - '127.0.0.1:8000:8000'
         image: tesla-service
+        restart: always
         networks:
           - app_sail
 networks:
