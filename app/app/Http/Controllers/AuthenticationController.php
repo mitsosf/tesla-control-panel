@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticationController extends Controller
@@ -60,6 +61,24 @@ class AuthenticationController extends Controller
         return redirect('/dashboard');
     }
 
+    public function demo()
+    {
+        $user = User::updateOrCreate([
+            'google_id' => Str::random(10),
+        ], [
+            'name' => 'New user',
+            'email' => 'test@test.com',
+            'avatar' => '',
+            'api_token' => User::generateApiToken()
+        ]);
+
+        $this->attachRolesToDemo($user);
+
+        Auth::login($user);
+
+        return redirect('/dashboard');
+    }
+
     private function attachRolesToAdmin(User $user) {
 
         if ($user->email === 'dimitris@frangiadakis.com') {
@@ -70,6 +89,15 @@ class AuthenticationController extends Controller
             $user->addRole('driver', true);
             $user->addRole('admin', true);
         }
+    }
+
+    private function attachRolesToDemo(User $user) {
+        $user->addRole('user');
+        $user->addRole('media');
+        $user->addRole('lock');
+        $user->addRole('climate');
+        $user->addRole('driver');
+
     }
 
     public function logout()

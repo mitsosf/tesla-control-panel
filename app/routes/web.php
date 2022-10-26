@@ -25,6 +25,8 @@ Route::get('/', function () {
 });
 Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
 
+Route::get('/auth/demo/login', [AuthenticationController::class, 'demo'])->name('login.demo');
+
 Route::get('/auth/google/redirect', function () {
     return Socialite::driver('google')->redirect();
 })->name('login.google');

@@ -38,7 +38,8 @@
                         <a href="{{route('login.google')}}"><img width="50%" src="{{asset('img/google_login.png')}}" alt="Google login"></a>
                     </div>
                     <div class="row">
-                        <a href="{{route('login.facebook')}}"><img width="20%" src="{{asset('img/facebook_login.png')}}" alt="Google login"></a>
+                        <h4>Demo login (without Google account):</h4>
+                        <a href="{{route('login.demo')}}"><img width="50%" src="{{asset('img/demo_login.png')}}" alt="Login"></a>
                     </div>
                 </div>
             </div>
