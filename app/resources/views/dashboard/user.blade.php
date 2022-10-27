@@ -2,9 +2,19 @@
 
 @section('title', 'User')
 @section('content')
-<div class="container">
-    <a style="margin-bottom: 5%" class="btn btn-danger" href="{{route('user.delete',$user->id)}}">Delete</a>
-    <div id="user" data-token="{{$api_token}}" data-user="{{$user}}" data-roles="{{$roles}}" data-url="{{env('APP_URL')}}"></div>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <a style="margin-bottom: 5%" class="btn btn-danger" href="{{route('user.delete',$user->id)}}">Delete</a>
+                <a style="margin-bottom: 5%" class="btn btn-success"
+                   href="{{route('user.grant_indefinite_roles',$user->id)}}">Indefinite roles</a>
+                <div id="user" data-token="{{$api_token}}" data-user="{{$user}}" data-roles="{{$all_roles}}"
+                     data-url="{{env('APP_URL')}}"></div>
+            </div>
+            <div class="col-md-6">
+                @include('dashboard.shared.my_roles')
+            </div>
+        </div>
+    </div>
 @endsection
 

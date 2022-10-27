@@ -63,12 +63,12 @@ class AuthenticationController extends Controller
     private function attachRolesToAdmin(User $user) {
 
         if ($user->email === 'dimitris@frangiadakis.com') {
-            $user->addRole('user');
-            $user->addRole('media');
-            $user->addRole('lock');
-            $user->addRole('climate');
-            $user->addRole('driver');
-            $user->addRole('admin');
+            $user->addRole('user', true);
+            $user->addRole('media', true);
+            $user->addRole('lock', true);
+            $user->addRole('climate', true);
+            $user->addRole('driver', true);
+            $user->addRole('admin', true);
         }
     }
 

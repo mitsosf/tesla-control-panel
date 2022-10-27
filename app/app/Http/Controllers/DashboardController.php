@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -40,9 +39,9 @@ class DashboardController extends Controller
 
     public function user (User $user) {
         $api_token = Auth::user()->api_token;
-        $user->roles;
-        $roles = Role::all();
-        return view('dashboard.user', compact('user', 'roles', 'api_token'));
+        $roles= $user->roles;
+        $all_roles = Role::all();
+        return view('dashboard.user', compact('user', 'roles', 'all_roles', 'api_token'));
     }
 
     public function deleteUser (User $user) {
@@ -56,6 +55,14 @@ class DashboardController extends Controller
         $roles = Auth::user()->roles;
 
         return view('dashboard.roles', compact('roles'));
+    }
+
+    public function grantIndefiniteRoles(User $user) {
+        foreach ($user->roles as $role) {
+            $user->grantIndefiniteRole($role->name);
+        }
+
+        return redirect(route('users'));
     }
 
 }

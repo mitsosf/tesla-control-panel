@@ -140,7 +140,12 @@ class ApiController extends Controller
             $result = reset($result);
 
             $role = Role::where('name', $result)->first();
-            $user->addRole($role->name);
+            $role_added = $user->addRole($role->name);
+
+            if (!$role_added) {
+                return new Response(['name' => $role->description, 'status' => 'existing'], 200);
+
+            }
 
             return new Response(['name' => $role->description, 'status' => 'added'], 200);
         }
