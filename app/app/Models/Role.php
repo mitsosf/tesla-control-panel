@@ -10,6 +10,6 @@ class Role extends Model
     protected $fillable = ['name, description, created_at'];
 
     public function users(){
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany('App\Models\User')->withPivot('expires_at');
     }
 }

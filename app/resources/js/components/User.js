@@ -4,7 +4,6 @@ import 'antd/dist/antd.css';
 
 import {Col, Form, Image, Input, notification, Row, Select} from "antd";
 import axios from "axios";
-import Icon from "@ant-design/icons";
 
 export default class User extends React.Component {
     constructor() {
@@ -66,8 +65,6 @@ export default class User extends React.Component {
 
     render() {
         const {Option} = Select;
-        console.log(this.state.user)
-        console.log(this.state.roles)
         return (
             <>
                 <Row>

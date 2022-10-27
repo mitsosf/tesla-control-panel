@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('role_id');
+            $table->timestamp('expires_at', 0)->nullable();
             $table->timestamps();
         });
     }

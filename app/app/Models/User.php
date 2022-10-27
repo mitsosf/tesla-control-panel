@@ -52,23 +52,31 @@ class User extends Authenticatable
     ];
 
     public function roles(){
-        return $this->belongsToMany('App\Models\Role');
+        return $this->belongsToMany('App\Models\Role')->withPivot('expires_at', 'created_at');
     }
 
     public function hasRole($role = null)
     {
         return !$this->roles->filter(function ($item) use ($role) {
-            return $item->name == $role;
+            return $item->name == $role && Carbon::now() < $item->pivot->expires_at;
         })->isEmpty();
     }
 
-    public function addRole($role = null)
+    public function addRole($role = null, $indefinite = false)
     {
+        // FIXME: When I remove a role and then re-add it immediately, this is triggered somehow
         if ($this->hasRole($role)) {
             return false;
         }
 
-        $this->roles()->attach(Role::where('name', $role)->first(), ['created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+        $this->roles()->attach(Role::where('name', $role)->first(), [
+            'expires_at' => $indefinite || $this->hasRole('admin') ?
+                Carbon::now()->addCenturies(1) :
+                Carbon::now()->addDays(7),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
         return true;
     }
 
@@ -76,6 +84,26 @@ class User extends Authenticatable
     {
         if ($this->hasRole($role)) {
             $this->roles()->detach(Role::where('name', $role)->first());
+            return true;
+        }
+
+        return false;
+    }
+
+    public function grantIndefiniteRole($role = null)
+    {
+        if ($this->hasRole($role)) {
+            $old_created_at = Carbon::now();
+            foreach ($this->roles as $roleObj) {
+                if ($roleObj->name === $role)
+                    $old_created_at = $roleObj->pivot->created_at;
+            }
+            $this->roles()->detach(Role::where('name', $role)->first());
+            $this->roles()->attach(Role::where('name', $role)->first(), [
+                'expires_at' => Carbon::now()->addCentury(),
+                'created_at' => $old_created_at,
+                'updated_at' => Carbon::now()
+            ]);
             return true;
         }
 
