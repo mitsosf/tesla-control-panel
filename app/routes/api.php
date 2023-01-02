@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\WatchApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,8 @@ Route::middleware('auth.api.climate')->post('/climate/off', [ApiController::clas
 Route::middleware('auth.api.climate')->post('/climate/seat', [ApiController::class, 'climateSeat']);
 
 Route::middleware('auth.api.administrator')->post('/user/roles', [ApiController::class, 'editRoles']);
+
+Route::middleware('auth.api.watch')->post('/watch/wakeup', [WatchApiController::class, 'wakeup']);
+Route::middleware('auth.api.watch')->post('/watch/lock', [WatchApiController::class, 'lock']);
+Route::middleware('auth.api.watch')->post('/watch/unlock', [WatchApiController::class, 'unlock']);
+Route::middleware('auth.api.watch')->post('/watch/drive', [WatchApiController::class, 'drive']);

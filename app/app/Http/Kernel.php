@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'auth.api.driver' => \App\Http\Middleware\DriverApiMiddleware::class,
         'auth.administrator' => \App\Http\Middleware\AdminMiddleware::class,
         'auth.api.administrator' => \App\Http\Middleware\AdminApiMiddleware::class,
+        'auth.api.watch' => \App\Http\Middleware\WatchApiMiddleware::class,
     ];
 }
