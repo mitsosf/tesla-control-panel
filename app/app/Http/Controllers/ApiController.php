@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Services\CarService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -11,16 +12,16 @@ use Illuminate\Support\Facades\Http;
 class ApiController extends Controller
 {
     private string $teslaService;
+    private CarService $carService;
 
-    public function __construct() {
+    public function __construct(CarService $carService) {
         $this->teslaService = env('TESLA_SERVICE_URL');
+        $this->carService = $carService;
     }
 
     public function wakeUp(): Response
     {
-        $response = Http::post($this->teslaService . '/wakeup');
-
-        return new Response($response->body(), $response->status());
+        return $this->carService->wakeUp();
     }
 
     public function track(Request $request): Response
@@ -50,23 +51,17 @@ class ApiController extends Controller
 
     public function lock(): Response
     {
-        $response = Http::post($this->teslaService . '/lock');
-
-        return new Response($response->body(), $response->status());
+       return $this->carService->lock();
     }
 
     public function unlock(): Response
     {
-        $response = Http::post($this->teslaService . '/unlock');
-
-        return new Response($response->body(), $response->status());
+        return $this->carService->unlock();
     }
 
     public function start(): Response
     {
-        $response = Http::post($this->teslaService . '/start');
-
-        return new Response($response->body(), $response->status());
+        return $this->carService->start();
     }
 
     public function vehicleClimate(): Response
