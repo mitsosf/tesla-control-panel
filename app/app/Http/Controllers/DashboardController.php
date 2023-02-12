@@ -62,7 +62,15 @@ class DashboardController extends Controller
             $user->grantIndefiniteRole($role->name);
         }
 
-        return redirect(route('users'));
+        return redirect(route('user.edit', $user->id));
+    }
+
+
+    public function toggleFavorite(User $user) {
+        $user->favorite = !$user->favorite;
+        $user->update();
+
+        return redirect(route('user.edit', $user->id));
     }
 
 }

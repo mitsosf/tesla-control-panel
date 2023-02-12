@@ -44,3 +44,4 @@ Route::middleware('auth.basicUser')->get('/dashboard/user/roles', [DashboardCont
 Route::middleware('auth.administrator')->get('/dashboard/user/{user}', [DashboardController::class, 'user'])->name('user.edit');
 Route::middleware('auth.administrator')->get('/user/delete/{user}', [DashboardController::class, 'deleteUser'])->name('user.delete');
 Route::middleware('auth.administrator')->get('/user/grant_indefinite_roles/{user}', [DashboardController::class, 'grantIndefiniteRoles'])->name('user.grant_indefinite_roles');
+Route::middleware('auth.administrator')->get('/user/toggle_favorite/{user}', [DashboardController::class, 'toggleFavorite'])->name('user.toggleFavorite');
