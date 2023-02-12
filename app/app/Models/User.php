@@ -10,8 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property int $id
  * @property string $facebook_id
  * @property string $google_id
+ * @property boolean $favorite
  */
 class User extends Authenticatable
 {

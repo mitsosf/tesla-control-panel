@@ -8,6 +8,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th><i class="bi bi-star-fill"></i></th>
             <th>Provider</th>
             <th>Roles</th>
         </tr>
@@ -19,6 +20,7 @@
                         <img src="{{$user->avatar}}" class="img-circle elevation-2" height="30px">
                     </td>
                     <td>{{$user->email}}</td>
+                    <td>{{$user->favorite}}</td>
                     <td>{{$user->provider()}}</td>
                     <td>
                         @foreach($user->roles as $role)
@@ -38,6 +40,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th><i class="bi bi-star-fill"></i></th>
                 <th>Provider</th>
                 <th>Roles</th>
             </tr>
@@ -53,7 +56,9 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
-        $(document).ready(function () {$('#users').DataTable({})})
+        $(document).ready(function () {$('#users').DataTable({
+            order: [[2, 'desc']]
+        })})
     </script>
 @endsection
 
