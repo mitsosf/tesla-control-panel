@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmergencyController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -45,3 +46,6 @@ Route::middleware('auth.administrator')->get('/dashboard/user/{user}', [Dashboar
 Route::middleware('auth.administrator')->get('/user/delete/{user}', [DashboardController::class, 'deleteUser'])->name('user.delete');
 Route::middleware('auth.administrator')->get('/user/grant_indefinite_roles/{user}', [DashboardController::class, 'grantIndefiniteRoles'])->name('user.grant_indefinite_roles');
 Route::middleware('auth.administrator')->get('/user/toggle_favorite/{user}', [DashboardController::class, 'toggleFavorite'])->name('user.toggleFavorite');
+
+Route::get('/emergency/unlock', [EmergencyController::class, 'emergencyUnlock'])->name('emergency.unlock');
+Route::get('/emergency/lock', [EmergencyController::class, 'emergencyLock'])->name('emergency.lock');
